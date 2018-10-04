@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
 
 import axios from 'axios';
 import MovieResults from '../movie-results/MovieResults';
@@ -12,14 +13,24 @@ import MovieResults from '../movie-results/MovieResults';
          searchText: '',
          amount: 9,
          apiUrl: 'http://beatporttopcharts.com/php/api/movie/search.php',
-         movies: []
+         movies: [],
+         value: 0
      };
+
+     componentDidMount(){
+        axios.get(`${this.state.apiUrl}?s=${this.state.searchText}&l=${this.state.amount}`)
+        .then(res=>this.setState({movies : res.data.records}))
+        .catch(err => console.log(err));
+     }
 
      onTextChange = (e) => {
         let val = e.target.value;
         this.setState({[e.target.name] : val}, () => {
             if (val===''){
-                this.setState({movies:[]});
+                this.setState({amount:9});
+                axios.get(`${this.state.apiUrl}?s=${this.state.searchText}&l=${this.state.amount}`)
+                    .then(res=>this.setState({movies : res.data.records}))
+                    .catch(err => console.log(err));
             } else {
                 axios.get(`${this.state.apiUrl}?s=${this.state.searchText}&l=${this.state.amount}`)
                     .then(res=>this.setState({movies : res.data.records}))
@@ -48,36 +59,47 @@ import MovieResults from '../movie-results/MovieResults';
         });
     };
 
-  render() {
-    return (
-      <div>
-        <TextField 
-            name="searchText"
-            value={this.state.searchText}
-            onChange={this.onTextChange}
-            floatingLabelText="Search For Movies"
-            fullWidth={true}
-        />
-        <br/>
-        <SelectField
-            name="amount"
-            value={this.state.amount}
-            floatingLabelText="Amount"            
-            onChange={this.onAmountChange}
-          >
-            <MenuItem value={5}>5</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={"Twenty"}>20</MenuItem>
-            <MenuItem value={30}>30</MenuItem>
-            <MenuItem value={"all"}>All</MenuItem>
-        </SelectField>
-        <br/>
-        {this.state.movies.length > 0 ? (<MovieResults movies={this.state.movies} />) : null}
-        <br/>
-        {(this.state.movies.length > 0) && (this.state.movies.length >= this.state.amount) ? (<button onClick={this.onMoreClicked}>Load more...</button>) : null}        
-      </div>      
-    )
-  }
+    handleChange = (event, index, value) => {
+        // method to displayed movies created in 
+        // the last {this.state.value} days
+        this.setState({value},() => {
+            axios.get(`${this.state.apiUrl}?s=${this.state.searchText}&l=${this.state.value}`)
+                .then(res=>this.setState({movies : res.data.records}))
+                .catch(err => console.log(err)); 
+        });        
+    }
+
+    render() {
+        return (
+        <div>
+            <TextField 
+                name="searchText"
+                value={this.state.searchText}
+                onChange={this.onTextChange}
+                floatingLabelText="Search For Movies"
+                fullWidth={true}
+            />
+            <br/>
+            <SelectField
+                name="amount"
+                value={this.state.value}
+                floatingLabelText="Movies added"            
+                onChange={this.handleChange}
+            >
+                <MenuItem value={0} primaryText="Today" />
+                <MenuItem value={1} primaryText="Yesterday" />
+                <MenuItem value={7} primaryText="In the last 7 days" />
+                <MenuItem value={30} primaryText="In the last 30 days" />
+                <MenuItem value={"All"} primaryText="All" />
+            </SelectField>
+            <br/>
+            {this.state.movies.length > 0 ? (<MovieResults movies={this.state.movies} />) : null}
+            <br/>
+            {/* {(this.state.movies.length > 0) && (this.state.movies.length >= this.state.amount) ? (<button onClick={this.onMoreClicked}>Load more...</button>) : null}        */}
+            {(this.state.movies.length > 0) && (this.state.movies.length >= this.state.amount) ? (<FlatButton label="Load more..." fullWidth={true} onClick={this.onMoreClicked} /> ) : null} 
+        </div>      
+        )
+    }
 }
 
 export default Search;
