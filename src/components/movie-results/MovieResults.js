@@ -5,6 +5,25 @@ import IconButton from 'material-ui/IconButton';
 import ZoomIn from 'material-ui/svg-icons/action/zoom-in';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
+
+const styles = {
+    button: {
+      margin: 12,
+      width: '80%',
+    },
+    exampleImageInput: {
+      cursor: 'pointer',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      right: 0,
+      left: 0,
+      width: '100%',
+      opacity: 0,
+    },
+  };
 
  class MovieResults extends Component {
      
@@ -89,10 +108,26 @@ import FlatButton from 'material-ui/FlatButton';
                 <p><b>Release</b> {this.state.currentMovie.version}</p>
             {/* </div> */}
             {/* <div class="container"> */}
-                <h3>LINKS</h3>
-                <a href={this.state.currentMovie.imdb_link}>IMDB</a>
+                {/* <h3>LINKS</h3> */}
+                {/* <a href={this.state.currentMovie.imdb_link}>IMDB</a>
                 <br/>
-                <a href={"https://www.imdb.com" + this.state.currentMovie.imdb_trailer_url}>Trailer</a>
+                <a href={"https://www.imdb.com" + this.state.currentMovie.imdb_trailer_url}>Trailer</a> */}
+                <RaisedButton
+                    href={this.state.currentMovie.imdb_link}
+                    target="_blank"
+                    label="IMdb Link"
+                    secondary={true}
+                    style={styles.button}
+                    icon={<FontIcon className="muidocs-icon-custom-github" />}
+                />
+                <RaisedButton
+                    href={"https://www.imdb.com" + this.state.currentMovie.imdb_trailer_url}
+                    target="_blank"
+                    label="Trailer"
+                    secondary={true}
+                    style={styles.button}
+                    icon={<FontIcon className="muidocs-icon-custom-github" />}
+                />
             {/* </div> */}
             {/* <img src={this.state.currentMovie.imdb_image_url} alt="" style={{ width : '100%'}}/>
             <p>{this.state.currentMovie.imdb_description}</p> */}
