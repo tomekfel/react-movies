@@ -58,6 +58,7 @@ const styles = {
          amount: 9,
          apiUrl: 'http://beatporttopcharts.com/php/api/movie/search.php',
          movies: [],
+         rating_count: [],
          value: 30
      };
 
@@ -117,8 +118,16 @@ const styles = {
         });        
     }
 
-    sliderChange = (value) => {
-        console.log(value);
+    sliderChange = (rating_count) => {
+        this.setState({rating_count},() => {
+            //console.log(`${this.state.apiUrl}?s=${this.state.searchText}&l=${this.state.amount}&c=${this.state.value}&rating_count=${this.state.rating_count}`);
+            axios.get(`${this.state.apiUrl}?s=${this.state.searchText}&l=${this.state.amount}&c=${this.state.value}&rating_count=${this.state.rating_count}`)
+                .then(res=>{
+                    this.setState({movies : res.data.records});
+                })
+                .catch(err => console.log(err)); 
+
+        });
     }
 
     render() {
@@ -146,7 +155,7 @@ const styles = {
             </SelectField>
             <div style={wrapperStyle}>
                 <p>Rating Count</p>
-                <Range min={0} max={20} defaultValue={[3, 10]} tipFormatter={value => `${value}`} onChange={this.sliderChange} />
+                <Range min={0} max={100000} defaultValue={[1000, 100000]} tipFormatter={value => `${value}`} onChange={this.sliderChange} />
             </div>
             <br/>
             {(this.state.movies.length > 0) && (this.state.movies[0].error !== 'No movies found.') ? (<MovieResults movies={this.state.movies} />) : null}
