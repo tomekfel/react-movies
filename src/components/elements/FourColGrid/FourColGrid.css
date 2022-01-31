@@ -1,0 +1,62 @@
+.rmdb-grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.rmdb-grid h1 {
+    /* font-family: 'Abel', sans-serif;
+    font-size: 42px; */
+    font-family: 'Abel', sans-serif;
+    font-size: 42px;
+    @media screen and (max-width: 768px) {
+        font-size: 22px;
+    }
+}
+
+.rmdb-grid-content {
+    /* display: grid;
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
+    position: relative;
+    grid-column-gap: 40px;
+    grid-row-gap: 40px; */
+    display: grid;
+    grid-template-columns: repeat(5, minmax(150px, 1fr));
+    grid-gap: 10px;
+    position: relative;
+}
+
+.rmdb-grid-element {
+    /* background: #353535;
+    max-height: 430px;
+    animation: 0.5s ease 0s 1 normal none running animateGrid;
+    overflow: hidden; */
+    animation: animateGrid 0.5s;
+}
+
+@keyframes animateGrid {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width: 886px) {
+    .rmdb-grid-content {
+        grid-template-columns: repeat(3, minmax(100px, 1fr));
+    }
+}
+
+@media screen and (max-width: 886px) {
+    .rmdb-grid-content {
+        grid-template-columns: repeat(3, minmax(100px, 1fr));
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .rmdb-grid-content {
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
+    }
+}

@@ -1,0 +1,44 @@
+.rmdb-home {
+    margin-bottom: 100px;
+}
+
+.rmdb-home-grid {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.fa-star {
+    color: yellow;
+    /* margin-top: 4px; */
+    margin-right: 5px;
+}
+
+.rmdb-thumb {
+    font-family: 'Abel', sans-serif;
+    color: #fff;
+    background: #1c1c1c;
+    border-radius: 20px;
+    padding: 0px;
+    text-align: center;
+}
+
+.rmdb-thumb img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 20px 20px 0 0;
+}
+
+.rmdb-thumb-name {
+    display: block;
+    font-size: 18px;
+    padding-top: 5px;
+}
+
+.rmdb-thumb-character {
+    display: block;
+    font-size: 16px;
+    padding-bottom: 10px;
+}
